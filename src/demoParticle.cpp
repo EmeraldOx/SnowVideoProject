@@ -97,10 +97,7 @@ void demoParticle::move() {
 }
 
 void demoParticle::moveUp() {
-	if(pos.y < 3){
-		pos.y = 0;
-	}
-	else {
-		pos.y -= 3;
+	if(pos.y < 0){
+		pos.y -= 1;
 	}
 }

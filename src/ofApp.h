@@ -43,5 +43,7 @@ class ofApp : public ofBaseApp{
 
 		ofPixels grayDiffPixels;
 		int pixelLocation;
+		int scaledY;
+		int scaledX;
 		
 };

@@ -4,9 +4,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	//will change size later
-	camWidth = 640;  // try to grab at this size.
-	camHeight = 480;
+	camWidth = 320;  // try to grab at this size.
+	camHeight = 240;
 
 	vidGrabber.setDeviceID(0);
 	vidGrabber.setDesiredFrameRate(60);
@@ -60,13 +59,16 @@ void ofApp::update(){
 		for (unsigned int i = 0; i < p.size(); i++) {
 			p[i].setMode(currentMode);
 			p[i].update();
-			pixelLocation = ((p[i].pos.y * camWidth) + p[i].pos.x);
-			ofLogNotice() << pixelLocation;
+			scaledY = p[i].pos.y * (grayDiff.getHeight() / 768);
+			scaledX = p[i].pos.x * (grayDiff.getWidth() / 1024);
+			pixelLocation = ((scaledY * camWidth) + scaledX);
 			if (grayDiffPixels[pixelLocation] < 255) {
 				p[i].move();
 			}
 			else {
-				//p[i].moveUp();
+				//while (grayDiffPixels[pixelLocation] = 255 && p[i].pos.y > 0) {
+				//	p[i].moveUp();
+				//}
 			}
 		}
 	}
@@ -77,32 +79,28 @@ void ofApp::draw(){
 	ofSetHexColor(0xffffff);
 	
 	if (ofGetKeyPressed('d')) {
-		grayDiff.draw(0, 0, camWidth, camHeight);
-	}
-	else {
-		vidGrabber.draw(0, 0);
-	}
-	ofColor c(255, 255, 255);
-	for (int i = 0; i < contourFinder.nBlobs; i++) {
-		contourFinder.blobs[i].draw(0, 0);
+		grayDiff.draw(0, 0, 1024, 768);
+		for (int i = 0; i < contourFinder.nBlobs; i++) {
+			contourFinder.blobs[i].draw(0, 0);
 
-		// draw over the centroid if the blob is a hole
-		ofSetColor(255);
-		if (contourFinder.blobs[i].hole) {
-			ofDrawBitmapString("hole",
-				contourFinder.blobs[i].boundingRect.getCenter().x,
-				contourFinder.blobs[i].boundingRect.getCenter().y);
+			// draw over the centroid if the blob is a hole
+			ofSetColor(255);
+			if (contourFinder.blobs[i].hole) {
+				ofDrawBitmapString("hole",
+					contourFinder.blobs[i].boundingRect.getCenter().x,
+					contourFinder.blobs[i].boundingRect.getCenter().y);
+			}
 		}
 	}
+	else {
+		vidGrabber.draw(0, 0, 1024, 768);
+	}
+
+	ofColor c(255, 255, 255);
 	
 	for (unsigned int i = 0; i < p.size(); i++) {
 		p[i].draw();
 	}
-
-	ofSetColor(190);
-
-	ofSetColor(230);
-	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode.", 10, 20);
 }
 
 //--------------------------------------------------------------
