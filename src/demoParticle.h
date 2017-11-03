@@ -9,8 +9,6 @@ class demoParticle{
 
 	public:
 		demoParticle();
-		
-		void setMode(particleMode newMode);	
 
 		void reset();
 		void update();
@@ -23,8 +21,6 @@ class demoParticle{
 		float drag; 
 		float uniqueVal;
 		float scale;
-		
-		particleMode mode;
 
 		void move();
 		void moveUp();

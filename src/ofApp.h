@@ -24,11 +24,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		particleMode currentMode;
-		string currentModeStr;
+		string Instructions;
 		vector <demoParticle> p;
-
-		void collideCheck();
 
 		ofVideoGrabber vidGrabber;
 

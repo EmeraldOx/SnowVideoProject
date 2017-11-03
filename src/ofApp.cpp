@@ -21,14 +21,14 @@ void ofApp::setup(){
 
 	int num = 1500;
 	p.assign(num, demoParticle());
-	currentMode = PARTICLE_MODE_NOISE;
 	resetParticles();
+
+	Instructions = "S to reset snow. Spacebar to reset background.";
 }
 
 void ofApp::resetParticles() {
 
 	for (unsigned int i = 0; i < p.size(); i++) {
-		p[i].setMode(currentMode);
 		p[i].reset();
 	}
 }
@@ -57,7 +57,6 @@ void ofApp::update(){
 
 
 		for (unsigned int i = 0; i < p.size(); i++) {
-			p[i].setMode(currentMode);
 			p[i].update();
 			scaledY = p[i].pos.y * (grayDiff.getHeight() / 768);
 			scaledX = p[i].pos.x * (grayDiff.getWidth() / 1024);
@@ -66,9 +65,12 @@ void ofApp::update(){
 				p[i].move();
 			}
 			else {
-				//while (grayDiffPixels[pixelLocation] = 255 && p[i].pos.y > 0) {
-				//	p[i].moveUp();
-				//}
+				while (grayDiffPixels[pixelLocation] == 255 && p[i].pos.y > 0) {
+					p[i].moveUp();
+					scaledY = p[i].pos.y * (grayDiff.getHeight() / 768);
+					scaledX = p[i].pos.x * (grayDiff.getWidth() / 1024);
+					pixelLocation = ((scaledY * camWidth) + scaledX);
+				}
 			}
 		}
 	}
@@ -101,18 +103,15 @@ void ofApp::draw(){
 	for (unsigned int i = 0; i < p.size(); i++) {
 		p[i].draw();
 	}
+
+	ofSetColor(0);
+	ofDrawBitmapString(Instructions, 50, 50, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
-	if (key == '4') {
-		currentMode = PARTICLE_MODE_NOISE;
-		currentModeStr = "4 - PARTICLE_MODE_NOISE: snow particle simulation";
-		resetParticles();
-	}
-
-	if (key == ' ') {
+	if (key == 's') {
 		resetParticles();
 	}
 	if (key == ' ') {
@@ -168,9 +167,4 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
-}
-
-void ofApp::collideCheck() {
-	//what are the inputs?
-	//output: translate moved object
 }

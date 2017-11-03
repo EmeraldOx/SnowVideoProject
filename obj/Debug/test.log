@@ -1,4 +1,6 @@
 ﻿  ofApp.cpp
+videoInputD.lib(videoInput.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+     Creating library bin\test_debug.lib and object bin\test_debug.exp
   test.vcxproj -> C:\Users\E\Documents\College\4 - Senior Year\of_v0.9.8_vs_release (functional)\of_v0.9.8_vs_release\apps\myApps\SnowVideoProject\bin\test_debug.exe
   test.vcxproj -> bin\test_debug.pdb (Full PDB)
   
